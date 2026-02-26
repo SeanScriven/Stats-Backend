@@ -1,0 +1,16 @@
+Dependencies
+/venv/
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+
+Configuration
+.env
+
+Other OS/Editor files
+.DS_Store
+.vscode/
+
+Logs
+*.log
