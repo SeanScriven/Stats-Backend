@@ -16,8 +16,58 @@ def init_db(conn):
     conn.commit()
     print("Database initialised.")
 
-if __name__ == "__main__":
-    conn = get_db()
-    init_db(conn)
-    conn.close()
-    print("Setup complete. You can now run main.py")
+def upsert_leagues(conn, leagues: list):
+    rows = [
+        (
+            league["id"],
+            league["name"],
+            league["type"],
+            league["logo"],
+            league["country"]["name"],
+            league["country"]["code"],
+            league["country"]["flag"],
+        )
+        for league in leagues
+    ]
+
+    conn.executemany("""
+        INSERT INTO leagues (id, name, type, logo, country_name, country_code, country_flag)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(id) DO UPDATE SET
+            name=excluded.name,
+            type=excluded.type,
+            logo=excluded.logo,
+            country_name=excluded.country_name,
+            country_code=excluded.country_code,
+            country_flag=excluded.country_flag
+    """, rows)
+
+    conn.commit()
+    print(f"Upserted {len(rows)} leagues into the database.")
+
+def upsert_teams(conn, teams: list):
+    rows = [
+        (
+            team["id"],
+            team["name"],
+            team["logo"],
+            team["country"]["name"],
+            team["country"]["code"],
+            team["country"]["flag"],
+        )
+        for team in teams
+    ]
+
+    conn.executemany("""
+        INSERT INTO teams (id, name, logo, country_name, country_code, country_flag)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ON CONFLICT(id) DO UPDATE SET
+            name=excluded.name,
+            logo=excluded.logo,
+            country_name=excluded.country_name,
+            country_code=excluded.country_code,
+            country_flag=excluded.country_flag
+    """, rows)
+
+    conn.commit()
+    print(f"Upserted {len(rows)} teams into the database.")

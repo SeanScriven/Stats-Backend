@@ -10,3 +10,6 @@
    python setup_db.py
 5. Run the app
    python main.py
+
+## Running the API
+uvicorn app.api:app --reload

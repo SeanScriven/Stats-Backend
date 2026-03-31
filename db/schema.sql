@@ -7,3 +7,12 @@ CREATE TABLE IF NOT EXISTS leagues (
     country_code TEXT,
     country_flag TEXT
 );
+
+CREATE TABLE IF NOT EXISTS teams (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    logo TEXT,
+    country_name TEXT,
+    country_code TEXT,
+    country_flag TEXT
+);
