@@ -9,7 +9,7 @@ load_dotenv()
 
 API_KEY = os.getenv("API_KEY")
 BASE_URL = os.getenv("RUGBY_BASE_URL")
-SEASON = 2024
+SEASON = int(os.getenv("SEASON"))
 
 # API-Sports requires the key in a specific header
 headers = {
